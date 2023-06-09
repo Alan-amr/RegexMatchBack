@@ -15,18 +15,16 @@ const {handlehttpError} = require('../utils/handlehttpError')
   };
 
 const getUserByUsernameAndPassword = async (req, res) => {
-    const { userName, password } = req.query;
+    const userName = req.params.userName;
+    const password = req.params.password;
   
     try {
-      const user = await UserModel.findOne({ userName, password });
-  
-      if (!user) {
-        return handlehttpError(res, "USER_NOT_FOUND", 404);
-      }
-  
+      const user = await UserModel.findOne({ userName: userName, password : password });
+      console.log(user);
       res.send( user );
     } catch (e) {
-      handlehttpError(res, "ERROR_FIND_USER");
+      var message = e.message;
+      res.send({ message });
     }
   };
 
